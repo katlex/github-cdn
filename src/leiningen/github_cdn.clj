@@ -1,4 +1,4 @@
-(ns leiningen.github-cdn
+(ns leiningen.github-cdn 
   (:require [me.raynes.conch :refer [programs]]
             [me.raynes.fs :as fs]
             [clojure.string :as s]
