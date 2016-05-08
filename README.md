@@ -1,3 +1,5 @@
+[![Clojars Project](https://img.shields.io/clojars/v/katlex/github-cdn.svg)](https://clojars.org/katlex/github-cdn)
+
 # github-cdn
 
 A leiningen plugin to publish files to github pages service (aka github CDN)
