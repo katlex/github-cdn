@@ -19,7 +19,7 @@ A leiningen plugin to publish files to github pages service (aka github CDN)
                ;; branch name to push files too (optional gh-pages is default)
                :branch "gh-pages" 
                ;; optional subfolder to publish files to (default is branch root)
-	       :target "subfolder"}
+               :target "subfolder"}
 ```
 
 3. Run `lein github-cdn` in your project root. Optionally provide a comment `lein github-cdn released few files`
