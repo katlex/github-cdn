@@ -22,7 +22,7 @@ A leiningen plugin to publish files to github pages service (aka github CDN)
 	       :target "subfolder"}
 ```
 
-3. Run `lein github-cdn` in your project root
+3. Run `lein github-cdn` in your project root. Optionally provide a comment `lein github-cdn released few files`
 
 ## Release notes
 
