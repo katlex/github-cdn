@@ -27,7 +27,7 @@ A leiningen plugin to publish files to github pages service (aka github CDN)
 ## Release notes
 
 *v0.1.3*  
-Fixed bug with pulling of unlinked branch
+Pull a branch before pushing it
 
 *v0.1.1*  
 Added feature to push to a subdirectory and better error meesages if something goes wrong
