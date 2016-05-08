@@ -59,7 +59,7 @@
         (ensure-branch branch)
         (binding [*dir* (fs/file dest-dir target-dir)]
           (.mkdirs *dir*)
-          (git "pull")
+          (git "pull" "origin" branch {:dir *dir* :throw false})
           (println "Removing old files")
           (git "rm" "-rf" "*" {:dir *dir* :throw false})
           (copy-files src-dir *dir*)
