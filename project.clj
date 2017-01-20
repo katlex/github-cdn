@@ -8,4 +8,4 @@
                :branch "gh-pages"}
   :eval-in-leiningen true
   :dependencies [[me.raynes/conch "0.8.0"]
-                 [me.raynes/fs "1.4.5"]])
+                 [me.raynes/fs "1.4.6"]])
