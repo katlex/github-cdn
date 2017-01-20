@@ -13,14 +13,14 @@
   (s/trim-newline (git "rev-parse" "--abbrev-ref" "HEAD")))
 
 (defn ensure-branch [branch]
-  "Checks that current dir   "
+  "Checks that the given branch exists, creating it if not."
   (println "Ensuring branch" branch)
   (if-not (zero? @(:exit-code
                    (git "checkout" branch {:dir *dir* :verbose true :throw false})))
     (do (println (str "*** " branch " branch not found -- creating it ***"))
         (git "rm" "*" {:dir *dir* :throw false})
         (git "checkout" "--orphan" branch {:dir *dir*}))
-    (println "Already there")))
+    (println "Branch" branch "already exists")))
 
 (defn default-uri
   "Calculates default uri basing on current repository"
@@ -33,12 +33,15 @@
      uri)))
 
 (defn copy-files
-  "Copies files recursevely from src-dir to dest-dir"
+  "Copies files recursively from src-dir to dest-dir"
   [src-dir dest-dir]
   (println "Copying files " (.getAbsolutePath src-dir) " --> " (.getAbsolutePath dest-dir))
   (doseq [[dir _ files] (fs/iterate-dir src-dir)
           :let [local-dir (-> dir .getAbsolutePath
-                              (s/replace (.getAbsolutePath src-dir) ""))]
+                              (s/replace (.getAbsolutePath src-dir) ""))
+                local-dir (if (.startsWith local-dir "/")
+                            (.substring local-dir 1)
+                            local-dir)]
           file files
           :let [src-file (fs/file src-dir local-dir file)
                 dest-file (fs/file dest-dir local-dir file)]]
@@ -54,7 +57,7 @@
         (println "Checking git repo in" (.getAbsolutePath *dir*))
         (.mkdirs *dir*)
         (when-not (zero? @(:exit-code (git "status" {:dir *dir* :throw false :verbose true})))
-          (println "No git repo found. Clonning repo" repository-uri)
+          (println "No git repo found. Cloning repo" repository-uri)
           (git "clone" repository-uri dest-dir))
         (ensure-branch branch)
         (binding [*dir* (fs/file dest-dir target-dir)]
@@ -63,7 +66,7 @@
           (println "Removing old files")
           (git "rm" "-rf" "*" {:dir *dir* :throw false})
           (copy-files src-dir *dir*)
-          (println "Commiting and pushing")
+          (println "Committing and pushing")
           (git "add" "*" {:dir *dir* :throw false})
           (git "commit" "-m" comment' {:dir *dir* :throw false})
           (git "push" "origin" (str branch ":" branch) {:dir *dir*})
@@ -71,7 +74,7 @@
       (println "No source dir specified"))))
 
 (defn github-cdn
-  "Publishes resources to gihhub branch"
+  "Publishes resources to gh-pages branch"
   [project & args]
   (let [settings (:github-cdn project)]
     (try
@@ -79,7 +82,7 @@
                    :target-dir (or (:target settings) "")
                    :repository-uri (or (:repository settings) (default-uri))
                    :branch (or (:branch settings) "gh-pages")
-                   :comment' (if args (apply str (interpose " " args)) "Updated files on CDN"))
+                   :comment' (if args (apply str (interpose " " args)) "Updated files on gh-pages branch"))
       (catch ExceptionInfo e
         (let [error (-> e .getData :proc :err)
               error (or error "Unknown error")

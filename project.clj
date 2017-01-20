@@ -1,4 +1,4 @@
-(defproject katlex/github-cdn "0.1.3"
+(defproject katlex/github-cdn "0.1.4-SNAPSHOT"
   :description "A leiningen plugin to handle release files to Github (Akamai) CDN via github pages"
   :license {:name "Eclipse Public License"
             :url "http://www.eclipse.org/legal/epl-v10.html"}
