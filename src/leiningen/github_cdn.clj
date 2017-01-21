@@ -74,7 +74,7 @@
       (println "No source dir specified"))))
 
 (defn github-cdn
-  "Publishes resources to gh-pages branch"
+  "Publishes resources to github"
   [project & args]
   (let [settings (:github-cdn project)]
     (try
@@ -82,7 +82,7 @@
                    :target-dir (or (:target settings) "")
                    :repository-uri (or (:repository settings) (default-uri))
                    :branch (or (:branch settings) "gh-pages")
-                   :comment' (if args (apply str (interpose " " args)) "Updated files on gh-pages branch"))
+                   :comment' (if args (apply str (interpose " " args)) "Updated files with lein github-cdn"))
       (catch ExceptionInfo e
         (let [error (-> e .getData :proc :err)
               error (or error "Unknown error")
