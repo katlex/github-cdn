@@ -12,27 +12,32 @@ A leiningen plugin to publish files to github pages service (aka github CDN)
 
 ```
 (defproject my/project "0.0.0"
+  :plugins [[katlex/github-cdn 1.0.4]]
   :github-cdn {;; source directory which content is published
-               :dir "release" 
+               :dir "release"
                ;; optional repository to publish (picked up from the project git if not specified)
-               :repository "git@github.com:katlex/github-cdn" 
+               :repository "git@github.com:katlex/github-cdn"
                ;; branch name to push files too (optional gh-pages is default)
-               :branch "gh-pages" 
+               :branch "gh-pages"
                ;; optional subfolder to publish files to (default is branch root)
-               :target "subfolder"}
+               :target "subfolder"})
 ```
 
 3. Run `lein github-cdn` in your project root. Optionally provide a comment `lein github-cdn released few files`
 
 ## Release notes
 
-*v0.1.3*  
+*v0.1.4*
+Updated `me.raynes/fs`
+Fixed a bug with leading `/` in paths
+
+*v0.1.3*
 Pull a branch before pushing it
 
-*v0.1.1*  
+*v0.1.1*
 Added feature to push to a subdirectory and better error meesages if something goes wrong
 
-*v0.1.0*  
+*v0.1.0*
 First release
 
 ## Acknowledgements
